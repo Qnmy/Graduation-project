@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<!-- 配置为开发模式 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 配置扩展名为action -->
+	<constant name="struts.action.extension" value="action" />
+	<!-- 让OGNL中可以使用静态的方法 -->
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+
+
+
+	<package name="default" namespace="/" extends="struts-default">
+
+
+		<!-- <interceptors>
+			声明一个拦截器
+			<interceptor name="checkePrivilege" class="cn.itcast.oa.interceptor.CheckPrivilegeInterceptor"></interceptor>
+
+			重新定义defaultStack拦截器栈，需要先判断权限
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="checkePrivilege" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors> -->
+
+		<interceptors>
+			<!-- 声明一个拦截器 -->
+			<interceptor name="checkePrivilege" class="com.zxj.interceptor.CheckPrivilegeInterceptor"></interceptor>
+
+			<!-- 重新定义defaultStack拦截器栈，需要先判断权限 -->
+			<interceptor-stack name="defaultStack">
+				<interceptor-ref name="checkePrivilege" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+		</interceptors> 
+		
+		<!-- 配置全局的Result -->
+		<global-results>
+			<result name="noPrivilegeError">/MyJsp.jsp</result>
+		</global-results> 
+		
+		<!-- <action name="test" class="adminAction">
+			<result name="success">/MyJsp.jsp</result>
+		</action> -->
+		
+		<!-- 网站设置 -->
+		<action name="index_load" class="adminAction" method="indexLoad">
+			<result name="suc">/index.jsp</result>
+		</action>
+		
+		<action name="web_AdminSave" class="adminAction" method="save"/>
+		
+		<action name="web_AdminGet" class="adminAction" method="getUser"/>
+
+		<action name="web_AdminDelete" class="adminAction" method="delete"/>
+		
+		<action name="web_AdminUpdate" class="adminAction" method="update"/>
+		
+		<action name="web_Privilege_*" class="privilegeAction" method="{1}">
+			<result name="load">/web_Privilege.jsp</result>
+		</action>
+		
+		<action name="web_AdminPrivilege_*" class="adminPrivilegeAction" method="{1}">
+			<result name="load">/web_Distribute.jsp</result>
+		</action>
+		
+	 	<action name="login" class="adminAction" method="login"/> 
+		
+		 <action name="web_Adminload" class="adminAction" method="load">
+			<result name="load">/web_Admin.jsp</result>
+		</action>  
+		<!-- 基础信息 -->
+		<action name="customer_*" class="customerAction" method="{1}">
+			<result name="load">/customer.jsp</result>
+		</action>
+		
+		<action name="car_*" class="carAction" method="{1}">
+			<result name="load">/car.jsp</result>
+		</action>
+		
+		<action name="route_*" class="routeAction" method="{1}">
+			<result name="load">/route.jsp</result>
+		</action>
+		
+		<action name="carroute_*" class="carRouteAction" method="{1}">
+			<result name="load">/carRoute.jsp</result>
+		</action>
+		
+		<!-- 业务详情 -->
+		<action name="sendgoods_*" class="sendGoodsAction" method="{1}">
+			<result name="load">/sendgoods.jsp</result>
+		</action>
+		
+		<!-- 财务相关 -->
+		<action name="account_*" class="accountAction" method="{1}">
+			<result name="load">/account.jsp</result>
+		</action>
+		
+		<!-- 历史订单 -->
+		<action name="order_*" class="orderAction" method="{1}">
+			<result name="load">/finishOrder.jsp</result>
+		</action>
+		
+		<!-- 安全退出 -->
+		<action name="exitSys" class="adminAction" method="exitSys">
+			<result name="exit" type="redirect">/login.html</result>
+		</action>
+		
+		<!-- 修改密码 -->
+		<action name="editpassword" class="adminAction" method="editPassword"/>
+		
+		<!-- 前台订单 -->
+		<action name="frontOrder" class="frontOrderAction" method="destine">
+			<result name="success">/page-shopping-cart.jsp</result>
+			<result name="error" type="redirect">/page-404.html</result>
+		</action>
+		
+		<action name="orderFinishSave" class="frontOrderAction" method="desSuc">
+			<result name="success">/page-suc.jsp</result>
+			<result name="error" type="redirect">/page-404.html</result>
+		</action>
+		
+		<action name="page-loc-search" class="frontOrderAction" method="orderSearch">
+			<result name="success">/page-loc-search.jsp</result>
+		</action>
+		
+		<action name="page-order-search" class="frontOrderAction" method="order_search"/>
+	</package>
+
+</struts>
