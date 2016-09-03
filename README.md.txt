@@ -1,3 +1,0 @@
-graduation project 
-
-SSH
